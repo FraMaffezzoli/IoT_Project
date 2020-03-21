@@ -105,6 +105,7 @@ event message_t* Receive.receive(message_t* bufPtr, void* payload, uint8_t len)
 				call Leds.led2Toggle();
 			}	
 		}
+	return bufPtr;
 	}
 }
 event void AMSend.sendDone(message_t* bufPtr, error_t error) {
