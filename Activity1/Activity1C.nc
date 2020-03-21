@@ -2,146 +2,114 @@
 
 #include "Timer.h"
 #include "Activity1.h"
-#include "stdbool.h"
 
 module Activity1C @safe()
 {
-	Interfaces
 	uses interface Leds;
     uses interface Boot;
 	uses interface Packet;
 	uses interface AMSend;
 	uses interface Receive;
 	uses interface SplitControl as AMControl;
+	uses interface Timer<TMilli> as MilliTimer;
 }
 
 implementation
 {
 	message_t packet;
-	uint16_t counter = 1;
-	bool led0 = false;
-	bool led1 = false;
-	bool led2 = false;
-	
-	event void Boot.booted()
+	uint16_t counter = 0;
+	bool locked = FALSE;
+	  
+event void Boot.booted()
 	{
 		call AMControl.start();								//turns on the controller
-		if (TOS_NODE_ID == 1)
-			call MilliTimer.startPeriodic(1000);			//set up a 1Hz timer
-		if (TOS_NODE_ID == 2)
-			call MilliTimer.startPeriodic(333);
-		if (TOS_NODE_ID == 3)
-			call MilliTimer.startPeriodic(200);			
+	
 	}
+	
+event void AMControl.startDone(error_t err) 
+	{
+    	if (err == SUCCESS) 
+    	{
+			if (TOS_NODE_ID == 1)
+				call MilliTimer.startPeriodic(1000);			//set up a 1Hz timer
+			if (TOS_NODE_ID == 2)
+				call MilliTimer.startPeriodic(333);
+			if (TOS_NODE_ID == 3)
+				call MilliTimer.startPeriodic(200);		
+    	}
+    	else
+    	{
+      		call AMControl.start();
+    	}
+  	}
+
+event void AMControl.stopDone(error_t err) 
+	{
+    // do nothing
+  	}
 	
 //send a message and react to your own message (es mote0 turns on and off led 0)
 //Mote 0 has a node_id = 1
 
 event void MilliTimer.fired()	
-	{
-	if (TOS_NODE_ID == 1)
-	{
-		if (led0 == false)
-		{
-			call Leds.led0On();
-			led0 == true;
+	{   
+	
+	broadcastMsg_t* message = (broadcastMsg_t*)call Packet.getPayload(&packet, sizeof(broadcastMsg_t));
+	if (locked) {
+    	return;
+    }
+    dbg("wee");
+    if (TOS_NODE_ID == 1){
+		call Leds.led0Toggle();
 		}
-		else
-		{
-			call Leds.led0Off();
-			led0 = false;
+	if (TOS_NODE_ID == 2){
+		call Leds.led1Toggle();
 		}
-	}
-	if (TOS_NODE_ID == 2)
-	{
-		if (led1 == false)
-		{
-			call Leds.led1On();
-			led1 == true;
+	if (TOS_NODE_ID == 3){
+		call Leds.led2Toggle();
 		}
-		else
-		{
-			call Leds.led1Off();
-			led1 = false;
-		}
-	}
-	if (TOS_NODE_ID == 3)
-	{
-		if (led2 == false)
-		{
-			call Leds.led2On();
-			led2 == true;
-		}
-		else
-		{
-			call Leds.led2Off();
-			led2 = false;
-		}
-	}
+		message->counter = counter;					//send a msg with node id and counter
+		message->nodeID = TOS_NODE_ID;
 		
-		BroadcastMsg* message = (BroadcastMsg*) Packet.getPayload(&packet, sizeof(broadcastMsg));
-		message.counter = counter;					//send a msg with node id and counter
-		message.nodeID = TOS_NODE_ID;
-		
-		call AMSend.send(AM_BROADCAST_ADDR, &packet, sizeof(broadcastMsg));
+	if (call AMSend.send(AM_BROADCAST_ADDR, &packet, sizeof(broadcastMsg_t)) == SUCCESS)
+		{
+		locked = TRUE;
+      	}
 	}
 	
 event message_t* Receive.receive(message_t* bufPtr, void* payload, uint8_t len)
-{
-	if (len != sizeof(broadcastMsg)) 			//check if received msg is correct
-		return bufPtr;
+	{
+	if (len != sizeof(broadcastMsg_t)) 			//check if received msg is correct
+		{return bufPtr;}
 	else
 	{
-		broadcastMsg* received = (broadcastMsg*) payload;
+		broadcastMsg_t* received = (broadcastMsg_t*) payload;
+
 		counter++;							//increase counter
 		
-		if (received.counter % 10 == 0)		//if the rest ofcounter/10 is 0, turn off leds
+		if (received->counter % 10 == 0)		//if the rest ofcounter/10 is 0, turn off leds
 		{
 			call Leds.led0Off();
-			led0 = false;
 			call Leds.led1Off();
-			led1 = false;
 			call Leds.led2Off();
-			led2 = false;
 		}
 		else
 		{
-			if(received.nodeID == 1){			//selectively turn of leds depending on
-				if led0 == true					//the sender of the message
-					{
-						led0 == false;
-						call Leds.led0Off;
-					}
-				else
-				{
-					led0 == true;
-					call Leds.led0On;
-				}
+			if(received->nodeID == 1){			//selectively turn of leds depending on
+				call Leds.led0Toggle();				//the sender of the message
 			}
-			if(received.nodeID == 2){			
-				if led1 == true					
-					{
-						led1 == false;
-						call Leds.led1Off;
-					}
-				else
-				{
-					led1 == true;
-					call Leds.led1On;
-				}
+			if(received->nodeID == 2){			
+				call Leds.led1Toggle();
 			}
-			if(received.nodeID == 3){
-				if led2 == true
-					{
-						led2 == false;
-						call Leds.led2Off;
-					}
-				else
-				{
-					led2 == true;
-					call Leds.led2On;
-				}
+			if(received->nodeID == 3){
+				call Leds.led2Toggle();
 			}	
 		}
 	}
+}
+event void AMSend.sendDone(message_t* bufPtr, error_t error) {
+    if (&packet == bufPtr) {
+      locked = FALSE;
+    }
+  }
 }

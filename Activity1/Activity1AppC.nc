@@ -1,6 +1,6 @@
 #include "Activity1.h"
 
-configuration MoteAppC {}
+configuration Activity1AppC {}
 implementation {
   components MainC, Activity1C as App, LedsC;
   components new AMSenderC(AM_RADIO_COUNT_MSG);
@@ -9,7 +9,6 @@ implementation {
   components ActiveMessageC;
   
   App.Boot -> MainC.Boot;
-  
   App.Receive -> AMReceiverC;
   App.AMSend -> AMSenderC;
   App.AMControl -> ActiveMessageC;
