@@ -40,23 +40,23 @@ module sendAckC {
   //***************** Send request function ********************//
   void sendReq() {
   	my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
-	  if (mess == NULL) {
-		return;
-	  }
+	//  if (mess == NULL) {
+	//	return;
+	//  }
 	  
-	  counter++
+	  counter++;
 	  mess->value = 0;
-	  mess->type = "REQ";
+	  mess->type = REQ;
 	  mess->counter = counter;
 	  
 	  dbg("radio_pack","Preparing the message... \n");
 	  
-  	  if(call PacketAcknowledgements.requestAck(&mess) == SUCCESS)
+  	  if(call PacketAcknowledgements.requestAck(&packet) == SUCCESS)
   	  {
   	  dbg("radio_ack","Ack requested\n");
   	  }
   	  else{
-  	  dbg_error("radio_ack","Ack request not supported\n");
+  	  dbgerror("radio_ack","Ack request not supported\n");
   	  }
   	  
   	  if(call AMSend.send(2, &packet,sizeof(my_msg_t)) == SUCCESS){
@@ -100,7 +100,7 @@ module sendAckC {
       }
 
   //***************** MilliTimer interface ********************//
-  event void MilliTimer.fired() {
+  event void MsgTimer.fired() {
    	dbg("timer","Message timer fired at %s.\n", sim_time_string());
   	sendReq();
   }
@@ -108,15 +108,15 @@ module sendAckC {
 
   //********************* AMSend interface ****************//
   event void AMSend.sendDone(message_t* buf,error_t err) {
-   if (&packet == buf && error == SUCCESS) {
+   if (&packet == buf && err == SUCCESS) {
       dbg("radio_send", "Packet sent...");
       dbg_clear("radio_send", " at time %s \n", sim_time_string());
     }
     else{
       dbgerror("radio_send", "Send done error!");
     }
-    if (call PacketAcknowledgements.wasAcked(&buf) == TRUE && TOS_NODE_ID == 1){
-      dbg("radio_ack", "Packet acknowlegde\n");
+    if (call PacketAcknowledgements.wasAcked(buf) == TRUE && TOS_NODE_ID == 1){
+      dbg("radio_ack", "Acknowledged packet\n");
       call MsgTimer.stop();
       dbg("timer","Message timer stop\n");
   }
@@ -135,12 +135,12 @@ module sendAckC {
   //***************************** Receive interface *****************//
   event message_t* Receive.receive(message_t* buf,void* payload, uint8_t len) {
 	
-	    if (len != sizeof(my_msg_t)) {return bufPtr;}
+	    if (len != sizeof(my_msg_t)) {return buf;}
     else {
       my_msg_t* mess = (my_msg_t*)payload;
       
       dbg("radio_rec", "Received packet at time %s\n", sim_time_string());
-      dbg("radio_pack"," Payload length %hhu \n", call Packet.payloadLength( bufPtr ));
+      dbg("radio_pack"," Payload length %hhu \n", call Packet.payloadLength( buf ));
       dbg("radio_pack", ">>>Pack \n");
       dbg_clear("radio_pack","\t\t Payload Received\n" );
 	  dbg_clear("radio_pack", "\t\t counter: %hhu \n", mess->counter);	      
@@ -149,17 +149,17 @@ module sendAckC {
 	  
 	  rec_id = mess->counter;
 
-		if(mess->type == "REQ"){
+		if(mess->type == REQ){
 		  sendResp();
 		  }
 		  
-		return bufPtr;
+		return buf;
 		
 	    }
 		{
 		  dbgerror("radio_rec", "Receiving error \n");
 		}
-	  }
+  }
 	
 	/* This event is triggered when a message is received 
 	 *
@@ -169,31 +169,30 @@ module sendAckC {
 	 * 3. If a request is received, send the response
 	 * X. Use debug statements showing what's happening (i.e. message fields)
 	 */
-
-  }
   
   //************************* Read interface **********************//
   event void Read.readDone(error_t result, uint16_t data) {
-		double value = ((double)data/65535)*100;
-	dbg("value","value read done %f\n",value);
-	
-  	my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
+	  my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
+	  double value = ((double)data/65535)*100;
 	  if (mess == NULL) {
 		return;
 	  }
+    
+
+      dbg("value","value read done %f\n",value);  	
 	  
 	  mess->value = value;
-	  mess->type = "RESP";
+	  mess->type = RESP;
 	  mess->counter = rec_id;
 	  
 	  dbg("radio_pack","Preparing the response... \n");
 	  
-	  if(call PacketAcknowledgements.requestAck(&mess) == SUCCESS)
+	  if(call PacketAcknowledgements.requestAck(&packet) == SUCCESS)
   	  {
   	  dbg("radio_ack","Ack requested\n");
   	  }
   	  else{
-  	  dbg_error("radio_ack","Ack request not supported\n");
+  	  dbgerror("radio_ack","Ack request not supported\n");
   	  }
 	  
 	if(call AMSend.send(1, &packet,sizeof(my_msg_t)) == SUCCESS){
@@ -204,6 +203,7 @@ module sendAckC {
 	  dbg_clear("radio_pack", "\t\t type: %hhu \n ", mess->type);
 	  dbg_clear("radio_pack", "\t\t value: %hhu \n", mess->value);
 	}
+  }
 	/* This event is triggered when the fake sensor finish to read (after a Read.read()) 
 	 *
 	 * STEPS:
