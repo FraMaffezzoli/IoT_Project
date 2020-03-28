@@ -72,7 +72,7 @@ module sendAckC {
 		if(err == SUCCESS) {
 			dbg("radio", "Radio on!\n");
 			if (TOS_NODE_ID == 1) {
-				dbg("timer","Message timer stop\n");
+				dbg("timer","Message timer start\n");
 				call MsgTimer.startPeriodic( 1000 );
 			}
 		}else{
