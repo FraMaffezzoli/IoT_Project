@@ -1,0 +1,141 @@
+********************************************
+*                                          *
+*             TOSSIM Script                *
+*                                          *
+********************************************
+Initializing mac....
+Initializing radio channels....
+    using topology file: topology.txt
+    using noise file: meyer-heavy.txt
+Initializing simulator....
+Activate debug message on channel init
+Activate debug message on channel boot
+Activate debug message on channel radio
+Activate debug message on channel timer
+Activate debug message on channel value
+Activate debug message on channel radio_send
+Activate debug message on channel radio_ack
+Activate debug message on channel radio_rec
+Activate debug message on channel radio_pack
+Activate debug message on channel role
+Creating node 1...
+>>>Will boot at time 0 [sec]
+Creating node 2...
+>>>Will boot at time 5 [sec]
+Creating radio channels...
+>>>Setting radio channel from node  1  to node  2  with gain  -60.0  dBm
+>>>Setting radio channel from node  2  to node  1  with gain  -60.0  dBm
+Initializing Closest Pattern Matching (CPM)...
+Reading noise model data file: meyer-heavy.txt
+Loading:##Done!
+>>>Creating noise model for node: 1
+>>>Creating noise model for node: 2
+Start simulation with TOSSIM! 
+
+
+
+DEBUG (1): Application booted.
+DEBUG (1): Radio on!
+DEBUG (1): Message timer stop
+DEBUG (1): Message timer fired at 0:0:0.976562510.
+DEBUG (1): Preparing the message... 
+DEBUG (1): Ack requested
+DEBUG (1): Packet passed to lower layer successfully!
+DEBUG (1): >>>Pack
+ 	 Payload length 5 
+	 Payload Sent
+		 counter: 1 
+		 type: 1 
+ 		 value: 0 
+DEBUG (1): Packet sent... at time 0:0:0.979278558 
+DEBUG (1): Message timer fired at 0:0:1.953125010.
+DEBUG (1): Preparing the message... 
+DEBUG (1): Ack requested
+DEBUG (1): Packet passed to lower layer successfully!
+DEBUG (1): >>>Pack
+ 	 Payload length 5 
+	 Payload Sent
+		 counter: 2 
+		 type: 1 
+ 		 value: 0 
+DEBUG (1): Packet sent... at time 0:0:1.964096015 
+DEBUG (1): Message timer fired at 0:0:2.929687510.
+DEBUG (1): Preparing the message... 
+DEBUG (1): Ack requested
+DEBUG (1): Packet passed to lower layer successfully!
+DEBUG (1): >>>Pack
+ 	 Payload length 5 
+	 Payload Sent
+		 counter: 3 
+		 type: 1 
+ 		 value: 0 
+DEBUG (1): Packet sent... at time 0:0:2.931823728 
+DEBUG (1): Message timer fired at 0:0:3.906250010.
+DEBUG (1): Preparing the message... 
+DEBUG (1): Ack requested
+DEBUG (1): Packet passed to lower layer successfully!
+DEBUG (1): >>>Pack
+ 	 Payload length 5 
+	 Payload Sent
+		 counter: 4 
+		 type: 1 
+ 		 value: 0 
+DEBUG (1): Packet sent... at time 0:0:3.911804176 
+DEBUG (1): Message timer fired at 0:0:4.882812510.
+DEBUG (1): Preparing the message... 
+DEBUG (1): Ack requested
+DEBUG (1): Packet passed to lower layer successfully!
+DEBUG (1): >>>Pack
+ 	 Payload length 5 
+	 Payload Sent
+		 counter: 5 
+		 type: 1 
+ 		 value: 0 
+DEBUG (1): Packet sent... at time 0:0:4.890533412 
+DEBUG (2): Application booted.
+DEBUG (2): Radio on!
+DEBUG (1): Message timer fired at 0:0:5.859375010.
+DEBUG (1): Preparing the message... 
+DEBUG (1): Ack requested
+DEBUG (1): Packet passed to lower layer successfully!
+DEBUG (1): >>>Pack
+ 	 Payload length 5 
+	 Payload Sent
+		 counter: 6 
+		 type: 1 
+ 		 value: 0 
+DEBUG (2): Received packet at time 0:0:5.861328123
+DEBUG (2):  Payload length 5 
+DEBUG (2): >>>Pack 
+		 Payload Received
+		 counter: 6 
+		 type: 1 
+ 		 value: 0 
+DEBUG (1): Packet sent... at time 0:0:5.861495969 
+DEBUG (1): Acknowledged packet
+DEBUG (1): Message timer stop
+DEBUG (2): value read done 76.937514
+DEBUG (2): Preparing the response... 
+DEBUG (2): Ack requested
+DEBUG (2): Packet passed to lower layer successfully!
+DEBUG (2): >>>Pack
+ 	 Payload length 5 
+	 Payload Sent
+		 counter: 6 
+		 type: 2 
+ 		 value: 76 
+DEBUG (2): value read done 76.937514
+DEBUG (2): Preparing the response... 
+DEBUG (2): Ack requested
+DEBUG (1): Received packet at time 0:0:5.877960169
+DEBUG (1):  Payload length 5 
+DEBUG (1): >>>Pack 
+		 Payload Received
+		 counter: 6 
+		 type: 2 
+ 		 value: 76 
+DEBUG (2): Packet sent... at time 0:0:5.878128015 
+
+
+
+Simulation finished!
