@@ -1,10 +1,3 @@
-/**
- *  Source file for implementation of module sendAckC in which
- *  the node 1 send a request to node 2 until it receives a response.
- *  The reply message contains a reading from the Fake Sensor.
- *
- *  @author Luca Pietro Borsani
- */
 
 #include "sendAck.h"
 #include "Timer.h"
@@ -40,9 +33,6 @@ module sendAckC {
   //***************** Send request function ********************//
   void sendReq() {
   	my_msg_t* mess = (my_msg_t*)(call Packet.getPayload(&packet, sizeof(my_msg_t)));
-	//  if (mess == NULL) {
-	//	return;
-	//  }
 	  
 	  counter++;
 	  mess->value = 0;
@@ -90,7 +80,6 @@ module sendAckC {
   	}
     }
     else{
-	//dbg for error
 	call SplitControl.start();
     }
   }
@@ -120,16 +109,7 @@ module sendAckC {
       call MsgTimer.stop();
       dbg("timer","Message timer stop\n");
   }
-  
-	/* This event is triggered when a message is sent 
-	 *
-	 * STEPS:
-	 * 1. Check if the packet is sent
-	 * 2. Check if the ACK is received (read the docs)
-	 * 2a. If yes, stop the timer. The program is done
-	 * 2b. Otherwise, send again the request
-	 * X. Use debug statements showing what's happening (i.e. message fields)
-	 */
+
   }
 
   //***************************** Receive interface *****************//
@@ -160,15 +140,6 @@ module sendAckC {
 		  dbgerror("radio_rec", "Receiving error \n");
 		}
   }
-	
-	/* This event is triggered when a message is received 
-	 *
-	 * STEPS:
-	 * 1. Read the content of the message
-	 * 2. Check if the type is request (REQ)
-	 * 3. If a request is received, send the response
-	 * X. Use debug statements showing what's happening (i.e. message fields)
-	 */
   
   //************************* Read interface **********************//
   event void Read.readDone(error_t result, uint16_t data) {
@@ -204,13 +175,5 @@ module sendAckC {
 	  dbg_clear("radio_pack", "\t\t value: %hhu \n", mess->value);
 	}
   }
-	/* This event is triggered when the fake sensor finish to read (after a Read.read()) 
-	 *
-	 * STEPS:
-	 * 1. Prepare the response (RESP)
-	 * 2. Send back (with a unicast message) the response
-	 * X. Use debug statement showing what's happening (i.e. message fields)
-	 */
-
 }
 

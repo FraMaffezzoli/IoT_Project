@@ -1,9 +1,3 @@
-/**
- *  Configuration file for wiring of sendAckC module to other common 
- *  components needed for proper functioning
- *
- *  @author Luca Pietro Borsani
- */
 
 #include "sendAck.h"
 
@@ -36,12 +30,7 @@ implementation {
   App.Packet -> AMSenderC;
   App.PacketAcknowledgements -> AMSenderC; 
   App.Receive -> AMReceiverC;
-
-  /****** Wire the other interfaces down here *****/
-  //Send and Receive interfaces
-  //Radio Control
-  //Interfaces to access package fields
-  //Timer interface
+  
   //Fake Sensor read
   App.Read -> FakeSensorC;
 
