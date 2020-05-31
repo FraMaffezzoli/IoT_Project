@@ -1,0 +1,349 @@
+[
+    {
+        "id": "b5d1af96.0416f8",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "8a9a8a88.ca1ed",
+        "type": "ui_base",
+        "theme": {
+            "name": "theme-light",
+            "lightTheme": {
+                "default": "#0094CE",
+                "baseColor": "#0094CE",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": true,
+                "reset": false
+            },
+            "darkTheme": {
+                "default": "#097479",
+                "baseColor": "#097479",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif",
+                "edited": false
+            },
+            "customTheme": {
+                "name": "Untitled Theme 1",
+                "default": "#4B7930",
+                "baseColor": "#4B7930",
+                "baseFont": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+            },
+            "themeState": {
+                "base-color": {
+                    "default": "#0094CE",
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-titlebar-backgroundColor": {
+                    "value": "#0094CE",
+                    "edited": false
+                },
+                "page-backgroundColor": {
+                    "value": "#fafafa",
+                    "edited": false
+                },
+                "page-sidebar-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-textColor": {
+                    "value": "#1bbfff",
+                    "edited": false
+                },
+                "group-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "group-backgroundColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "widget-textColor": {
+                    "value": "#111111",
+                    "edited": false
+                },
+                "widget-backgroundColor": {
+                    "value": "#0094ce",
+                    "edited": false
+                },
+                "widget-borderColor": {
+                    "value": "#ffffff",
+                    "edited": false
+                },
+                "base-font": {
+                    "value": "-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen-Sans,Ubuntu,Cantarell,Helvetica Neue,sans-serif"
+                }
+            }
+        },
+        "site": {
+            "name": "Node-RED Dashboard",
+            "hideToolbar": "false",
+            "allowSwipe": "false",
+            "allowTempTheme": "true",
+            "dateFormat": "DD/MM/YYYY",
+            "sizes": {
+                "sx": 48,
+                "sy": 48,
+                "gx": 6,
+                "gy": 6,
+                "cx": 6,
+                "cy": 6,
+                "px": 0,
+                "py": 0
+            }
+        }
+    },
+    {
+        "id": "92bbfbd7.454918",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "mqtt.thingspeak.com",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "95d224a5.124e9",
+        "type": "tcp in",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "server": "client",
+        "host": "localhost",
+        "port": "60001",
+        "datamode": "stream",
+        "datatype": "utf8",
+        "newline": "\\n",
+        "topic": "",
+        "base64": false,
+        "x": 210,
+        "y": 360,
+        "wires": [
+            [
+                "c2b40ea0.d617"
+            ]
+        ]
+    },
+    {
+        "id": "67e3739a.fd81a4",
+        "type": "debug",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1310,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "cdb079ac.65222",
+        "type": "delay",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "pauseType": "rate",
+        "timeout": "5",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "30",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "x": 1160,
+        "y": 360,
+        "wires": [
+            [
+                "6f077106.46f98",
+                "67e3739a.fd81a4"
+            ]
+        ]
+    },
+    {
+        "id": "6f077106.46f98",
+        "type": "mqtt out",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "topic": "channels/1071885/publish/P9QHMYH0MB6BK7X4",
+        "qos": "0",
+        "retain": "",
+        "broker": "92bbfbd7.454918",
+        "x": 1450,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "c2b40ea0.d617",
+        "type": "switch",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "123",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "246",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 430,
+        "y": 360,
+        "wires": [
+            [
+                "74e13a76.9352dc"
+            ],
+            [
+                "85f8f228.ece548"
+            ]
+        ]
+    },
+    {
+        "id": "74e13a76.9352dc",
+        "type": "split",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "splt": ", ",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 650,
+        "y": 280,
+        "wires": [
+            [
+                "fd1fff3.06a86"
+            ]
+        ]
+    },
+    {
+        "id": "fd1fff3.06a86",
+        "type": "switch",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "0",
+                "vt": "num",
+                "v2": "70",
+                "v2t": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 770,
+        "y": 280,
+        "wires": [
+            [
+                "b635227a.61d388"
+            ]
+        ]
+    },
+    {
+        "id": "85f8f228.ece548",
+        "type": "split",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "splt": ", ",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 650,
+        "y": 420,
+        "wires": [
+            [
+                "3997be2d.35a3d2"
+            ]
+        ]
+    },
+    {
+        "id": "3997be2d.35a3d2",
+        "type": "switch",
+        "z": "b5d1af96.0416f8",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "btwn",
+                "v": "0",
+                "vt": "num",
+                "v2": "70",
+                "v2t": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 770,
+        "y": 420,
+        "wires": [
+            [
+                "59c10c6d.ace8d4"
+            ]
+        ]
+    },
+    {
+        "id": "b635227a.61d388",
+        "type": "function",
+        "z": "b5d1af96.0416f8",
+        "name": "Field 1",
+        "func": "input = msg.payload;\nmsg.payload = \"field1=\"+input+\"&status=MQTTPUBLISH\";\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 930,
+        "y": 280,
+        "wires": [
+            [
+                "cdb079ac.65222"
+            ]
+        ]
+    },
+    {
+        "id": "59c10c6d.ace8d4",
+        "type": "function",
+        "z": "b5d1af96.0416f8",
+        "name": "Field 2",
+        "func": "input = msg.payload;\nmsg.payload = \"field2=\"+input+\"&status=MQTTPUBLISH\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 930,
+        "y": 420,
+        "wires": [
+            [
+                "cdb079ac.65222"
+            ]
+        ]
+    }
+]
