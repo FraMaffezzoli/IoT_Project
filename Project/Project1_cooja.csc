@@ -45,8 +45,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>27.11096314413637</x>
-        <y>-96.15811993203796</y>
+        <x>-12.183092982610646</x>
+        <y>1.3995366585062712</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -63,8 +63,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>-54.535633667033906</x>
-        <y>49.04917246914341</y>
+        <x>6.437901702056315</x>
+        <y>177.77108047055597</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -81,8 +81,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>248.91008215872137</x>
-        <y>97.41582758597282</y>
+        <x>216.39086329520666</x>
+        <y>20.18268278512528</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -99,8 +99,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>173.3207265442823</x>
-        <y>-71.38809043561402</y>
+        <x>14.789534584647896</x>
+        <y>-122.87685363617904</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -117,8 +117,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>69.56535908490899</x>
-        <y>63.92735600004695</y>
+        <x>77.69516380078767</x>
+        <y>69.34722581063275</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -135,8 +135,8 @@
       <breakpoints />
       <interface_config>
         org.contikios.cooja.interfaces.Position
-        <x>85.83820193438977</x>
-        <y>197.76059595213889</y>
+        <x>237.59455663079194</x>
+        <y>-134.20642994624086</y>
         <z>0.0</z>
       </interface_config>
       <interface_config>
@@ -166,7 +166,7 @@
       <skin>org.contikios.cooja.plugins.skins.GridVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.TrafficVisualizerSkin</skin>
       <skin>org.contikios.cooja.plugins.skins.UDGMVisualizerSkin</skin>
-      <viewport>0.7380251075749864 0.0 0.0 0.7380251075749864 140.33926361718338 147.8998832030194</viewport>
+      <viewport>0.7380251075749864 0.0 0.0 0.7380251075749864 123.33926361718338 118.89988320301941</viewport>
     </plugin_config>
     <width>400</width>
     <z>1</z>
@@ -182,7 +182,7 @@
       <coloring />
     </plugin_config>
     <width>1320</width>
-    <z>3</z>
+    <z>2</z>
     <height>474</height>
     <location_x>403</location_x>
     <location_y>261</location_y>
@@ -202,7 +202,7 @@
       <zoomfactor>500.0</zoomfactor>
     </plugin_config>
     <width>1720</width>
-    <z>2</z>
+    <z>3</z>
     <height>166</height>
     <location_x>0</location_x>
     <location_y>730</location_y>
